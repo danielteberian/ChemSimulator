@@ -242,9 +242,4 @@ struct CatalogTests {
             #expect(!hazard.symbolName.isEmpty)
         }
     }
-
-    @Test func disclaimerMentionsRealLife() {
-        #expect(SafetyDisclaimer.short.contains("real life"))
-        #expect(SafetyDisclaimer.full.contains("dangerous"))
-    }
 }

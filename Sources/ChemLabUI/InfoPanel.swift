@@ -1,7 +1,7 @@
 import ChemLabCore
 import SwiftUI
 
-/// Shows what the user has built: its name, formula, hazards, or what's missing.
+/// Shows what the user has built: its name, formula, hazard icons, or what's missing.
 struct InfoPanel: View {
     let reports: [MoleculeReport]
 
@@ -17,11 +17,6 @@ struct InfoPanel: View {
                 }
                 .padding(12)
             }
-            Divider()
-            Label(SafetyDisclaimer.short, systemImage: "exclamationmark.triangle")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .padding(10)
         }
     }
 }
@@ -35,9 +30,6 @@ private struct ReportCard: View {
                 identified(id)
             } else if report.isComplete {
                 header(title: report.formula.display, subtitle: "Complete, but no name is known for it yet.")
-                Label("Hazards not reviewed. Do not assume it is safe.", systemImage: "questionmark.circle")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
             } else {
                 header(title: report.formula.display, subtitle: "Not finished yet")
                 ForEach(report.issues.prefix(4), id: \.self) { issue in
@@ -85,19 +77,9 @@ private struct ReportCard: View {
             Label(note, systemImage: "info.circle")
                 .font(.caption).foregroundStyle(.secondary)
         }
-        Divider()
-        if id.hazards.isEmpty {
-            // An empty list must never read as an all-clear.
-            Label(
-                id.isCatalogued
-                    ? "No hazards are listed for this, which does not mean it is safe."
-                    : "Hazards not reviewed. Do not assume it is safe.",
-                systemImage: "questionmark.circle"
-            )
-            .font(.caption)
-            .foregroundStyle(.secondary)
-        } else {
-            ForEach(id.hazards, id: \.self) { HazardRow(note: $0) }
+        if !id.hazards.isEmpty {
+            Divider()
+            HazardIcons(notes: id.hazards)
         }
     }
 
@@ -109,20 +91,20 @@ private struct ReportCard: View {
     }
 }
 
-struct HazardRow: View {
-    let note: HazardNote
+/// The hazard symbols for a set of notes, icons only. The name of each hazard
+/// is kept as its accessibility label.
+struct HazardIcons: View {
+    let notes: [HazardNote]
 
     var body: some View {
-        HStack(alignment: .top, spacing: 10) {
-            Image(systemName: note.hazard.symbolName)
-                .font(.title3)
-                .foregroundStyle(note.hazard.color)
-                .frame(width: 28)
-            VStack(alignment: .leading, spacing: 1) {
-                Text(note.hazard.title).font(.headline)
-                Text(note.reason).font(.callout).foregroundStyle(.secondary)
+        let kinds = notes.map(\.hazard).reduce(into: [Hazard]()) { if !$0.contains($1) { $0.append($1) } }
+        HStack(spacing: 8) {
+            ForEach(kinds, id: \.self) { hazard in
+                Image(systemName: hazard.symbolName)
+                    .font(.title3)
+                    .foregroundStyle(hazard.color)
+                    .accessibilityLabel(hazard.title)
             }
         }
-        .accessibilityElement(children: .combine)
     }
 }

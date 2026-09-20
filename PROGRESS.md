@@ -210,6 +210,22 @@ runs `swift build`, then starts the `ChemLab` executable. Options: `--clean`,
 `.runlogs/last-warnings.txt` and `.runlogs/app.log`. Only its syntax was
 checked (`bash -n`); it has never been executed.
 
+### 7. Warnings removed, substance tracker (2026-09-20)
+
+- Removed the disclaimer sheet, the "About & Safety" buttons, the footer notices
+  and the "not safe" text. Hazards show as icons only (`HazardIcons`). The hazard
+  data and reasons stay in `Hazards.swift`. Nothing blocks an experiment.
+- `./run.sh --build-only` built the app. I launched it once, but macOS blocked
+  screen capture (no Screen Recording permission for the terminal), so there are
+  no screenshots.
+- The test target did not compile when I tried it. I fixed the `#expect` calls
+  that mutated `Encyclopedia` in `LabLearningTests.swift`. `LabModelTests.swift`
+  still has a "call can throw" error, and I never got a test run through. Tests
+  are unverified.
+- Added milestones 7 (recipe guides), 8 (make-it-yourself mode with an inventory)
+  and 9 (more substances) to `ROADMAP.md`, and `SUBSTANCES.md`, a tracking list
+  with sources and the engine features the new substances need.
+
 ## What is verified and what isn't
 
 | Area | Status |

@@ -100,7 +100,8 @@ struct EncyclopediaTests {
         #expect(book.speciesList.contains { $0.name == "Carbon dioxide" })
         #expect(book.reactionList.count == 1)
 
-        #expect(book.record(beaker).isEmpty)
+        let again = book.record(beaker)
+        #expect(again.isEmpty)
         #expect(book.reactionList.count == 1)
     }
 
@@ -109,10 +110,13 @@ struct EncyclopediaTests {
         var beaker = Beaker()
         let challenge = ChallengeLibrary.all.first { $0.id == "fizz" }!
 
-        #expect(!book.complete(challenge, in: beaker))
+        let beforeSolving = book.complete(challenge, in: beaker)
         beaker.run(challenge.solution)
-        #expect(book.complete(challenge, in: beaker))
-        #expect(!book.complete(challenge, in: beaker))
+        let firstSolve = book.complete(challenge, in: beaker)
+        let secondSolve = book.complete(challenge, in: beaker)
+        #expect(!beforeSolving)
+        #expect(firstSolve)
+        #expect(!secondSolve)
         #expect(book.completedChallenges == [challenge.id])
     }
 

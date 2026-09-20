@@ -2,12 +2,10 @@ import ChemLabCore
 import SwiftUI
 
 /// The virtual lab: three beakers on a bench, a shelf of reagents, and a panel
-/// that explains what is happening. Anything can be mixed; hazards are labelled.
+/// that explains what is happening. Anything can be mixed; hazards show as icons.
 public struct LabView: View {
     @Bindable private var model: LabModel
     @State private var showingShelf = false
-    @State private var showingAbout = false
-    @AppStorage("safetyDisclaimerAccepted") private var disclaimerAccepted = false
     @Environment(\.horizontalSizeClass) private var sizeClass
 
     public init(model: LabModel) {
@@ -19,17 +17,6 @@ public struct LabView: View {
             if sizeClass == .compact { compactLayout } else { regularLayout }
         }
         .padding(12)
-        .sheet(isPresented: firstLaunchBinding) {
-            DisclaimerView { disclaimerAccepted = true }
-                .interactiveDismissDisabled()
-        }
-        .sheet(isPresented: $showingAbout) {
-            DisclaimerView(buttonTitle: "Close") { showingAbout = false }
-        }
-    }
-
-    private var firstLaunchBinding: Binding<Bool> {
-        Binding(get: { !disclaimerAccepted }, set: { _ in })
     }
 
     // MARK: Layouts
@@ -132,8 +119,6 @@ public struct LabView: View {
             Button("Empty", systemImage: "trash") { model.emptySelected() }
                 .disabled(model.beaker.isEmpty)
             Spacer(minLength: 0)
-            Button("About & Safety", systemImage: "exclamationmark.triangle") { showingAbout = true }
-                .labelStyle(.iconOnly)
         }
         .buttonStyle(.bordered)
         .controlSize(.small)

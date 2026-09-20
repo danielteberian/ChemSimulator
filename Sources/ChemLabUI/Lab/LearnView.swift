@@ -47,9 +47,6 @@ public struct LearnView: View {
             }
 
             HStack {
-                Label(SafetyDisclaimer.short, systemImage: "exclamationmark.triangle")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
                 Spacer()
                 Button("Reset progress", role: .destructive) { confirmingReset = true }
                     .buttonStyle(.borderless)
@@ -133,7 +130,7 @@ private struct ExperimentList: View {
     var body: some View {
         Text("Guided experiments")
             .font(.headline)
-        Text("Each one sets up a beaker for you. Some of them are dangerous in real life, and that is why they are here: to see what happens and why.")
+        Text("Each one sets up a beaker for you, so you can see what happens and why.")
             .font(.callout)
             .foregroundStyle(.secondary)
 
@@ -212,13 +209,7 @@ private struct EncyclopediaView: View {
                     Text(species.name).font(.headline)
                     Text(species.formula).font(.callout.monospaced()).foregroundStyle(.secondary)
                 }
-                if species.hazardNotes.isEmpty {
-                    Label("No hazards listed, which does not mean it is safe.", systemImage: "questionmark.circle")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                } else {
-                    ForEach(species.hazardNotes, id: \.self) { HazardRow(note: $0) }
-                }
+                if !species.hazardNotes.isEmpty { HazardIcons(notes: species.hazardNotes) }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(12)
@@ -239,7 +230,7 @@ private struct EncyclopediaView: View {
                     .foregroundStyle(.secondary)
                 Text(reaction.equation).font(.title3.monospaced())
                 Text(reaction.why).font(.callout)
-                ForEach(reaction.hazardNotes, id: \.self) { HazardRow(note: $0) }
+                if !reaction.hazardNotes.isEmpty { HazardIcons(notes: reaction.hazardNotes) }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(12)

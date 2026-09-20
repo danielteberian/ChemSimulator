@@ -6,8 +6,6 @@ import SwiftUI
 public struct BuilderView: View {
     @State private var model: BuilderModel
     @State private var showingPicker = false
-    @State private var showingAbout = false
-    @AppStorage("safetyDisclaimerAccepted") private var disclaimerAccepted = false
     @Environment(\.horizontalSizeClass) private var sizeClass
 
     public init() {
@@ -24,17 +22,6 @@ public struct BuilderView: View {
             if sizeClass == .compact { compactLayout } else { regularLayout }
         }
         .padding(12)
-        .sheet(isPresented: firstLaunchBinding) {
-            DisclaimerView { disclaimerAccepted = true }
-                .interactiveDismissDisabled()
-        }
-        .sheet(isPresented: $showingAbout) {
-            DisclaimerView(buttonTitle: "Close") { showingAbout = false }
-        }
-    }
-
-    private var firstLaunchBinding: Binding<Bool> {
-        Binding(get: { !disclaimerAccepted }, set: { _ in })
     }
 
     // MARK: Layouts
@@ -110,7 +97,6 @@ public struct BuilderView: View {
                     .keyboardShortcut("z", modifiers: [.command, .shift])
                 Button("Clear", systemImage: "trash") { model.clear() }
                     .disabled(model.molecule.atoms.isEmpty)
-                Button("About & Safety", systemImage: "exclamationmark.triangle") { showingAbout = true }
             }
             .labelStyle(.iconOnly)
             .buttonStyle(.borderless)

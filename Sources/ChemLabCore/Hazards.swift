@@ -54,16 +54,3 @@ public struct HazardNote: Sendable, Hashable {
         self.reason = reason
     }
 }
-
-/// Text for the first-launch and About screens.
-public enum SafetyDisclaimer {
-    public static let short =
-        "Simulated. Do not attempt these experiments in real life."
-
-    public static let full = """
-        ChemLab is a simulation for learning. Many of the reactions shown are \
-        dangerous in real life: they can release toxic gas, cause fires or \
-        explosions, or burn skin and eyes. Never try them outside a properly \
-        equipped lab with training and supervision.
-        """
-}

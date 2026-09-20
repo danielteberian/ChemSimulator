@@ -2,7 +2,7 @@ import ChemLabCore
 import SwiftUI
 
 /// Explains what is going on in the selected beaker: what is inside, which
-/// hazards are showing and why, and every reaction with its "why did that
+/// hazard icons are showing, and every reaction with its "why did that
 /// happen?" explanation.
 struct BenchPanel: View {
     let beaker: Beaker
@@ -12,7 +12,7 @@ struct BenchPanel: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 14) {
                     if beaker.isEmpty {
-                        Text("This beaker is empty. Pick something from the shelf to add. You can try anything; dangerous things are labelled, never blocked.")
+                        Text("This beaker is empty. Pick something from the shelf to add.")
                             .foregroundStyle(.secondary)
                     } else {
                         contents
@@ -20,9 +20,7 @@ struct BenchPanel: View {
 
                     let hazards = beaker.activeHazards
                     if !hazards.isEmpty {
-                        section("Hazards right now") {
-                            ForEach(hazards, id: \.self) { HazardRow(note: $0) }
-                        }
+                        HazardIcons(notes: hazards)
                     }
 
                     if !beaker.events.isEmpty {
@@ -44,11 +42,6 @@ struct BenchPanel: View {
                 }
                 .padding(12)
             }
-            Divider()
-            Label(SafetyDisclaimer.short, systemImage: "exclamationmark.triangle")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .padding(10)
         }
     }
 
@@ -116,7 +109,7 @@ private struct ReactionCard: View {
                 .foregroundStyle(.secondary)
             }
 
-            ForEach(event.hazards, id: \.self) { HazardRow(note: $0) }
+            if !event.hazards.isEmpty { HazardIcons(notes: event.hazards) }
 
             DisclosureGroup("Why did that happen?", isExpanded: $showsWhy) {
                 Text(event.why)
