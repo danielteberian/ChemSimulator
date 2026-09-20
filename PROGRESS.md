@@ -219,11 +219,12 @@ checked (`bash -n`); it has never been executed.
 | Drag and bond gestures | **Not tried.** Model logic is tested; gesture wiring isn't |
 | iOS and the phone layout | **Never built or seen** (no iOS SDK) |
 | Dark mode | Never viewed |
-| Section 4 above (charges, parser, library, layout, add panel, new tests) | **Never compiled or run** |
-| Section 5 above (lab engine, lab UI, learning layer, undo, new presets, new tests) | **Never compiled or run** |
+| Section 4 above (charges, parser, library, layout, add panel, new tests) | Built and run in Xcode by you on 2026-09-20 ("works perfectly"). I have not seen the build output or test results |
+| Section 5 above (lab engine, lab UI, learning layer, undo, new presets, new tests) | Built and run in Xcode by you on 2026-09-20 ("works perfectly"). I have not seen the build output or test results |
 | Chemistry content in the lab (hazard text, "why" text, enthalpies) | **Not reviewed by a chemist** |
 
-The likeliest trouble in the unverified code: SwiftUI `Canvas` arithmetic and
+Reported working, but not checked by me. Which tests were run and whether they
+passed isn't recorded. The likeliest trouble spots if something looks off: SwiftUI `Canvas` arithmetic and
 `@Bindable` in the lab views, hand-traced numbers in the engine tests
 (temperatures, boiling), the layout of ring-shaped salts, and the hand-written
 structure strings and catalog entries. `ISSUES.md` sections 0 and 8 list them.

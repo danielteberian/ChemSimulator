@@ -3,9 +3,12 @@
 Priority: **High** = wrong answers or blocks progress, **Med** = should fix
 before other people use it, **Low** = polish.
 
-## 0. Written but never compiled or run (do this first)
+## 0. Written without a build; you reported it working (2026-09-20)
 
-Two batches of code have never been built. Everything in the second batch (the
+On 2026-09-20 you built and ran the app in Xcode and said it "works perfectly".
+I haven't seen the build output or test results, so the items below stay
+unchecked until someone confirms `swift test` / Cmd+U passes and the
+snapshots look right. Originally: two batches of code had never been built. Everything in the second batch (the
 lab engine, lab UI, learning layer, undo, new presets) was also written without
 running anything, so expect compile errors before any test result means much.
 
@@ -61,8 +64,9 @@ written without a build. Before trusting any of it:
       again (seen 2026-09-20). Open the package in it with `xed .`; the macOS 26
       SDK workaround in `DESIGN.md` is only for command-line builds. It is still
       needed for the iOS app, SwiftUI previews, and a real signed Mac app.
-- [ ] **Med** The project is not under version control. `git init`, add a
-      `.gitignore` (`.build/`, `.DS_Store`, `*.xcodeproj/xcuserdata`).
+- [x] **Med** The project is now under version control (2026-09-20) and pushed
+      to https://github.com/danielteberian/ChemSimulator (public, branch
+      `main`). `.gitignore` covers `.build/`, `.swiftpm/`, `.runlogs/`.
 - [ ] **Med** No iOS app target exists. Options: an Xcode project that imports
       the local package, or XcodeGen. The iOS compile, the compact (phone)
       layout, `presentationDetents`, and `navigationBarTitleDisplayMode` have
