@@ -78,6 +78,25 @@ opens on `ChemLabRootView` (Builder | Lab | Learn).
 - [ ] Quizzes / explanations that adapt to what the learner did
 - [ ] Net ionic equations and spectator ions shown explicitly
 
+## Milestone 6 — Simplify and smooth `[ ]` (added 2026-09-20, from you)
+- [ ] Remove the warning stuff. Not yet pinned down, so confirm what counts:
+      the first-launch disclaimer sheet and About & Safety (`DisclaimerView`,
+      `SafetyDisclaimer`), and any warning text or banners in the builder, lab
+      and learn views.
+- [ ] Show hazard icons only, with no explanations. Drop the reason text from the
+      badges in `InfoPanel`, `BenchPanel`, the beaker callouts and the
+      encyclopedia. The icons stay; the hazard data and its reasons can stay in
+      `Hazards.swift` for later. Still never block an experiment.
+- [ ] Make the app feel smoother. Candidates, none measured yet: animate state
+      changes (pouring, adding, temperature, fill level, panel switches), keep
+      `mix()` fast (cache `ReactionGenerator` output by species set; see
+      `ISSUES.md` section 0), avoid redrawing the whole beaker `Canvas` on every
+      change, and drag-and-drop pouring instead of the menu. First find out
+      where it feels rough (which action, which tab).
+
+Follow-up when these land: the principle below says "explain everything" and
+`ISSUES.md` sections 2 and 4 discuss reasons and disclaimers, so update them.
+
 ## Principle: experiment freely, explain everything
 
 Users can build and mix anything, including dangerous things. The app never
